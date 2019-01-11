@@ -1,0 +1,14 @@
+.main-view h1 {
+    margin: 0;
+    padding: 16px;
+    width: 100%;
+}
+
+.message-list {
+    overflow-y: scroll;
+    width: 100%;
+}
+
+.message-list p {
+    width: 100%;
+}
