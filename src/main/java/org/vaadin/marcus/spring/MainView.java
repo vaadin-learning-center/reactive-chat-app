@@ -3,22 +3,20 @@ package org.vaadin.marcus.spring;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.StyleSheet;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 
-@StyleSheet("frontend://styles/styles.css")
+@CssImport("frontend://styles/styles.css")
 @Route
 @PWA(name = "Vaadin Chat", shortName = "Vaadin Chat")
 @Push
@@ -28,9 +26,7 @@ public class MainView extends VerticalLayout {
   private final Flux<ChatMessage> messages;
   private String username;
 
-
-  public MainView(UnicastProcessor<ChatMessage> publisher,
-                  Flux<ChatMessage> messages) {
+  public MainView(UnicastProcessor<ChatMessage> publisher, Flux<ChatMessage> messages) {
     this.publisher = publisher;
     this.messages = messages;
     addClassName("main-view");
@@ -67,15 +63,9 @@ public class MainView extends VerticalLayout {
     add(messageList, createInputLayout());
     expand(messageList);
 
-
     messages.subscribe(message -> {
-      getUI().ifPresent(ui ->
-          ui.access(() ->
-              messageList.add(
-                  new Paragraph(message.getFrom() + ": " +
-                      message.getMessage())
-              )
-          ));
+      getUI().ifPresent(
+          ui -> ui.access(() -> messageList.add(new Paragraph(message.getFrom() + ": " + message.getMessage()))));
 
     });
   }
